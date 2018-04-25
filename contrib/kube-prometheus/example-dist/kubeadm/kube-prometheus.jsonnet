@@ -1,9 +1,7 @@
-local k = import "ksonnet.beta.3/k.libsonnet";
+local k = import "ksonnet/ksonnet.beta.3/k.libsonnet";
 local service = k.core.v1.service;
 local servicePort = k.core.v1.service.mixin.spec.portsType;
-local kubePrometheus = import "kube-prometheus.libsonnet";
-
-local namespace = "monitoring";
+local kubePrometheus = (import "kube-prometheus.libsonnet");
 
 local controllerManagerService = service.new("kube-controller-manager-prometheus-discovery", {component: "kube-controller-manager"}, servicePort.newNamed("http-metrics", 10252, 10252)) +
   service.mixin.metadata.withNamespace("kube-system") +
@@ -13,7 +11,7 @@ local schedulerService = service.new("kube-scheduler-prometheus-discovery", {com
   service.mixin.metadata.withNamespace("kube-system") +
   service.mixin.metadata.withLabels({"k8s-app": "kube-scheduler"});
 
-local objects = kubePrometheus.new(namespace) +
+local objects = kubePrometheus +
     {
         "prometheus-k8s/prometheus-k8s-service.yaml"+:
             service.mixin.spec.withPorts(servicePort.newNamed("web", 9090, "web") + servicePort.withNodePort(30900)) +

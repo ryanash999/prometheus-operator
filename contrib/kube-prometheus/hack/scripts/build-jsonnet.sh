@@ -8,12 +8,7 @@ json="tmp/manifests.json"
 
 rm -rf ${prefix}
 mkdir -p $(dirname "${json}")
-jsonnet \
-    -J $GOPATH/src/github.com/ksonnet/ksonnet-lib \
-    -J $GOPATH/src/github.com/grafana/grafonnet-lib \
-    -J $GOPATH/src/github.com/coreos/prometheus-operator/contrib/kube-prometheus/jsonnet \
-    -J $GOPATH/src/github.com/brancz/kubernetes-grafana/src/kubernetes-jsonnet \
-    ${jsonnet} > ${json}
+jsonnet -J jsonnet/kube-prometheus/vendor -J jsonnet/kube-prometheus ${jsonnet} > ${json}
 
 files=$(jq -r 'keys[]' ${json})
 
