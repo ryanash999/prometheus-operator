@@ -10,7 +10,7 @@ Note: `make generate` should be executed from kube-prometheus base directory.
 
 ## Prometheus Rules
 
-The `ConfigMap` that is generated and holds the Prometheus rule files can be found in `manifests/prometheus/prometheus-k8s-rules.yaml`.
+The `ConfigMap` that is generated and holds the Prometheus rule files can be found in `manifests/prometheus-k8s/prometheus-k8s-rules.yaml`.
 
 It is generated from all the `*.rules.yaml` files in the `assets/prometheus/rules/` directory.
 
